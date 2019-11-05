@@ -27,6 +27,7 @@ export default class SearchForm extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleHullSelect = this.handleHullSelect.bind(this);
   }
 
   async fetchSearchResult() {
@@ -48,6 +49,10 @@ export default class SearchForm extends React.Component {
   handleChange(event) {
     this.setState({ value: event.target.value });
   }
+  handleHullSelect(hullinfo) {
+    console.log("féluton");
+    this.props.onHullSelect(hullinfo);
+  }
 
   handleSubmit(event) {
     // alert('The Search has begun: ' + this.state.value);
@@ -58,6 +63,7 @@ export default class SearchForm extends React.Component {
   }
 
   render() {
+    console.log(this);
     const searchterm = this.value;
     const hullcardlist = this.state.hullinfoList;
 
@@ -76,7 +82,11 @@ export default class SearchForm extends React.Component {
         </form>
 
         {hullcardlist.map((item, key) => (
-          <HulladekCard hullinfo={item} key={item.hull_id} />
+          <HulladekCard
+            hullinfo={item}
+            key={item.hull_id}
+            HullChange={this.handleHullSelect}
+          />
         ))}
       </div>
     );

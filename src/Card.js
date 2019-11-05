@@ -17,16 +17,15 @@ const useStyles = makeStyles({
   }
 });
 
-function onclickfunc(hull_id) {
-  alert("Clicked " + hull_id);
-}
-
 export default function HulladekCard(props) {
   const classes = useStyles();
-  console.log(props);
+  //console.log(props);
 
   return (
-    <Card className={classes.card}>
+    <Card
+      className={classes.card}
+      onClick={() => props.HullChange(props.hullinfo)}
+    >
       <CardActionArea>
         <CardMedia
           component="img"
@@ -46,11 +45,7 @@ export default function HulladekCard(props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button
-          size="small"
-          color="primary"
-          onClick={event => onclickfunc(props.hullinfo.hull_id)}
-        >
+        <Button size="small" color="primary">
           Kukába!
         </Button>
       </CardActions>
