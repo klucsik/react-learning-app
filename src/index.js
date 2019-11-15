@@ -2,8 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./styles.css";
 import SearchForm from "./Search_and_list";
-import HulladekCard from "./Card";
 import ErrorBoundary from "./errors";
+import HullInfo from "./hullinfo";
+import { Auth0Provider } from "./react-auth0-spa";
+import config from "./auth_config.json";
+import AppB from "./AppB";
 
 class App extends React.Component {
   constructor(props) {
@@ -35,14 +38,16 @@ class App extends React.Component {
         <p>előző keresés: {this.state.searchterm}</p>
         <p>megjelenő hulladék: {this.state.selected_hullinfo.name}</p>
         {this.state.appstate === "search" && (
-          <SearchForm
-            onSearchSubmit={this.handleSearchChange}
-            onHullSelect={this.handleHullSelect}
-          />
+          <ErrorBoundary>
+            <SearchForm
+              onSearchSubmit={this.handleSearchChange}
+              onHullSelect={this.handleHullSelect}
+            />
+          </ErrorBoundary>
         )}
         <ErrorBoundary>
           {this.state.appstate === "hullinfo" && (
-            <HulladekCard hullinfo={this.state.selected_hullinfo} />
+            <HullInfo hullinfo={this.state.selected_hullinfo} />
           )}
         </ErrorBoundary>
       </div>
@@ -50,5 +55,26 @@ class App extends React.Component {
   }
 }
 
-const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);
+// A function that routes the user to the right place
+// after login
+const onRedirectCallback = appState => {
+  window.history.replaceState(
+    {},
+    document.title,
+    appState && appState.targetUrl
+      ? appState.targetUrl
+      : window.location.pathname
+  );
+};
+
+ReactDOM.render(
+  <Auth0Provider
+    domain={config.domain}
+    client_id={config.clientId}
+    redirect_uri={window.location.origin}
+    onRedirectCallback={onRedirectCallback}
+  >
+    <AppB />
+  </Auth0Provider>,
+  document.getElementById("root")
+);
