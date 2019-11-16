@@ -3,14 +3,15 @@ import Button from "@material-ui/core/Button";
 
 async function loginUser() {
   const rawResponse = await fetch(
-    "https://hovadobjam-test.herokuapp.com/api/auth",
+    "https://hovadobjam-test.herokuapp.com/api/login",
     {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         username: "kkp",
         password: "1"
-      })
+      }),
+      credentials: "include"
     }
   );
   const content = await rawResponse.json();
@@ -19,8 +20,9 @@ async function loginUser() {
 }
 
 function checkCookie() {
-  fetch(" https://hovadobjam-test.herokuapp.com/api", {
-    method: "get"
+  fetch(" https://hovadobjam-test.herokuapp.com/api/showmycookies", {
+    method: "get",
+    credentials: "include"
   })
     .then(response => response.json())
     .then(response => {
@@ -33,8 +35,9 @@ function checkCookie() {
 }
 
 function checkAuth() {
-  fetch(" https://hovadobjam-test.herokuapp.com/api/test", {
-    method: "get"
+  fetch(" https://hovadobjam-test.herokuapp.com/api/testlogin", {
+    method: "get",
+    credentials: "include"
   })
     .then(response => response.json())
     .then(response => {
