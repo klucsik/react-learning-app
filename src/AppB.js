@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-
+import Basic from "./components/LoginForm";
 async function loginUser() {
   const rawResponse = await fetch(
     "https://hovadobjam-test.herokuapp.com/api/login",
@@ -61,6 +61,7 @@ function AppB() {
       <Button size="small" color="primary" onClick={() => checkCookie()}>
         checkCookie
       </Button>
+      <Basic />
     </div>
   );
 }
